@@ -1,3 +1,5 @@
 .ipynb_checkpoints/
 .idea/
 venv/
+us.json
+unemployment.tsv

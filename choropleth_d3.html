@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style type="text/css">
+  .county {fill:#fff;}
+</style>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/queue.v1.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(function(){
+  var width = 660,
+      height = 450,
+      legend_width = 200,
+      divisions = 100;
+
+  var svg = d3.select("body").append("svg").attr("width", width).attr("height", height),
+      legend = svg.append("g").attr("class", "legend").attr("transform", "translate(450,405)");
+
+  var projection = d3.geo.mercator()
+        .center([-122.3871, 37.7729])
+        .scale(140000)
+        .translate([width/2, height/2]);
+
+  var col_range_low = "#fff",
+      col_range_high = "#002837";
+
+  var path = d3.geo.path().projection(projection);
+
+  queue()
+      .defer(d3.json, "https://cors-anywhere.herokuapp.com/http://bl.ocks.org/jadiehm/raw/af4a00140c213dfbc4e6/us.json")
+      .defer(d3.csv, "https://cors-anywhere.herokuapp.com/https://gist.githubusercontent.com/svadivazhagu/8abacf724a3458a26ddb49874897132b/raw/41df4893ae047c8f5dfaf3027983a0a20bcfc799/water_counties_cleaned")
+      .await(ready);
+
+  function ready(error, map, data) {
+    var total_popById = {};
+
+    data.forEach(function(d) {
+        total_popById[d.PrecinctID] = +d.total_pop;
+    });
+
+    var range_low = d3.min(data, function(d){return d.total_pop;}),
+        range_high= d3.max(data, function(d){return d.total_pop});
+
+    var color = d3.scale.linear()
+        .range([col_range_low, col_range_high])
+        .domain([range_low,range_high])
+        .interpolate(d3.interpolateLab);
+
+    svg.append("g")
+        .attr("class", "county")
+        .selectAll("path")
+        .data(topojson.feature(map, map.objects.precincts).features)
+        .enter().append("path")
+        .attr("id", function(d){return total_popById[d.properties.id];})
+        .attr("d", path)
+        .style("fill", function(d) {
+          return color(total_popById[d.properties.id]); 
+        });
+
+    // LEGEND //////////////////////////////////////////
+    var newData = [];
+    var sectionWidth = Math.floor(legend_width / divisions);
+
+    for (var i=0; i < legend_width; i+= sectionWidth ) {
+        newData.push(i);
+    }
+
+    var colorScaleLin = d3.scale.linear()
+          .domain([0, newData.length-1])
+          .interpolate(d3.interpolateLab)
+          .range([col_range_low, col_range_high]);
+
+    legend.selectAll('rect')
+        .data(newData)
+        .enter()
+        .append('rect')
+            .attr("x", function(d) { return d; })
+            .attr("y", 10)
+            .attr("height", 10)
+            .attr("width", sectionWidth)
+            .attr('fill', function(d, i) { return colorScaleLin(i)});
+
+    legend.append("text").text(function(){return (range_low*100).toFixed(1);}).attr("transform","translate(0,0)").style("font-size", "10px");
+    legend.append("text").text(function(){return (range_high*100).toFixed(1);}).attr("transform","translate("+(legend_width-20)+",0)").style("font-size", "10px");
+  };
+});
+
+</script>
+</body>
+</html>

@@ -19,7 +19,7 @@ var width = 960,
     height = 500;
 
 var color = d3.scale.threshold()
-    .domain([0.02, 0.04, 0.06, 0.08, 0.10])
+    .domain([89, 11236, 25963, 66706, 10170290])
     .range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
 
 var path = d3.geo.path();
@@ -30,15 +30,15 @@ var svg = d3.select("body").append("svg")
 
 queue()
     .defer(d3.json, "https://cors-anywhere.herokuapp.com/https://bl.ocks.org/mbostock/raw/4090846/us.json")
-    .defer(d3.tsv, "https://cors-anywhere.herokuapp.com/https://bl.ocks.org/mbostock/raw/3306362/unemployment.tsv")
+    .defer(d3.csv, "https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/svadivazhagu/04-Remix/master/data/water_counties_cleaned.csv?token=AV4w50DepyF0oCZP5m1BxUjfzvjhUF-lks5cdxHawA%3D%3D")
     .await(ready);
 
 function ready(error, us, unemployment) {
   if (error) throw error;
 
-  var rateById = {};
+  var total_popById = {};
 
-  unemployment.forEach(function(d) { rateById[d.id] = +d.rate; });
+  unemployment.forEach(function(d) { total_popById[d.id] = +d.total_pop; });
 
   svg.append("g")
       .attr("class", "counties")
@@ -46,7 +46,7 @@ function ready(error, us, unemployment) {
       .data(topojson.feature(us, us.objects.counties).features)
     .enter().append("path")
       .attr("d", path)
-      .style("fill", function(d) { return color(rateById[d.id]); });
+      .style("fill", function(d) { return color(total_popById[d.id]); });
 
   svg.append("path")
       .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a.id !== b.id; }))

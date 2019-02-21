@@ -35,11 +35,10 @@ water_counties_final.to_csv('data/water_counties_cleaned.csv')
 
 quantiles = []
 for i in np.arange(0, 1.1, 0.1):
-    quantiles.append(int(water_counties_final['total_pop'].quantile(i)))
+    quantiles.append(int(water_counties_final['groundwater_per_day'].quantile(i)))
+quantiles.reverse()
 print(quantiles)
 
-domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
-domain.reverse()
-print(domain)
+
 #calculation for
 

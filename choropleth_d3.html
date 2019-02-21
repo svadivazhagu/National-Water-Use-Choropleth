@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>Per-County Population, 2015</title>
-	<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-	<script type="text/javascript" src="http://d3js.org/queue.v1.min.js"></script>
-	<script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script> 
+	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="https://d3js.org/queue.v1.min.js"></script>
+	<script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script> 
 </head>
 
 <!-- CSS -->
@@ -96,8 +96,8 @@ function popChoro(){
 		 var path = d3.geo.path()
 		 
 		queue()
-		 .defer(d3.json, "https://cors-anywhere.herokuapp.com/http://bl.ocks.org/jadiehm/raw/af4a00140c213dfbc4e6/us.json")
-		 .defer(d3.csv, "https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/svadivazhagu/04-Remix/master/data/water_counties_cleaned.csv?token=AV4w52hT4ExCApHb4fW2pYQBoeHntGa8ks5cdxfVwA%3D%3D")
+		 .defer(d3.json, "httpss://cors-anywhere.herokuapp.com/https://bl.ocks.org/jadiehm/raw/af4a00140c213dfbc4e6/us.json")
+		 .defer(d3.csv, "httpss://cors-anywhere.herokuapp.com/httpss://raw.githubusercontent.com/svadivazhagu/04-Remix/master/data/water_counties_cleaned.csv?token=AV4w52hT4ExCApHb4fW2pYQBoeHntGa8ks5cdxfVwA%3D%3D")
 		 .await(ready);
 		 
 		function ready(error, us, data) {
@@ -208,8 +208,8 @@ function waterChoro(){
 		 var path = d3.geo.path()
 		 
 		queue()
-		 .defer(d3.json, "https://cors-anywhere.herokuapp.com/http://bl.ocks.org/jadiehm/raw/af4a00140c213dfbc4e6/us.json")
-		 .defer(d3.csv, "https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/svadivazhagu/04-Remix/master/data/water_counties_cleaned.csv?token=AV4w52hT4ExCApHb4fW2pYQBoeHntGa8ks5cdxfVwA%3D%3D")
+		 .defer(d3.json, "httpss://cors-anywhere.herokuapp.com/https://bl.ocks.org/jadiehm/raw/af4a00140c213dfbc4e6/us.json")
+		 .defer(d3.csv, "httpss://cors-anywhere.herokuapp.com/httpss://raw.githubusercontent.com/svadivazhagu/04-Remix/master/data/water_counties_cleaned.csv?token=AV4w52hT4ExCApHb4fW2pYQBoeHntGa8ks5cdxfVwA%3D%3D")
 		 .await(ready);
 		 
 		function ready(error, us, data) {
@@ -322,8 +322,8 @@ function perCapitaChoro(){
 		 var path = d3.geo.path()
 		 
 		queue()
-		 .defer(d3.json, "https://cors-anywhere.herokuapp.com/http://bl.ocks.org/jadiehm/raw/af4a00140c213dfbc4e6/us.json")
-		 .defer(d3.csv, "https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/svadivazhagu/04-Remix/master/data/water_counties_cleaned.csv?token=AV4w52hT4ExCApHb4fW2pYQBoeHntGa8ks5cdxfVwA%3D%3D")
+		 .defer(d3.json, "httpss://cors-anywhere.herokuapp.com/https://bl.ocks.org/jadiehm/raw/af4a00140c213dfbc4e6/us.json")
+		 .defer(d3.csv, "httpss://cors-anywhere.herokuapp.com/httpss://raw.githubusercontent.com/svadivazhagu/04-Remix/master/data/water_counties_cleaned.csv?token=AV4w52hT4ExCApHb4fW2pYQBoeHntGa8ks5cdxfVwA%3D%3D")
 		 .await(ready);
 		 
 		function ready(error, us, data) {

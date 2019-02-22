@@ -34,9 +34,8 @@ water_counties_final = water_counties_filtered[['state', 'total_pop', 'groundwat
 water_counties_final.to_csv('data/water_counties_cleaned.csv')
 
 quantiles = []
-for i in np.arange(0, 1.1, 0.1):
-    quantiles.append(int(water_counties_final['groundwater_per_day'].quantile(i)))
-quantiles.reverse()
+for i in np.arange(0, 1.0, 0.1):
+    quantiles.append((int(water_counties_final['gal_per_capita'].quantile(i))))
 print(quantiles)
 
 

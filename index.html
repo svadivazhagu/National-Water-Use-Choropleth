@@ -41,6 +41,10 @@
 	.population{
 		display:inline-block;
 	}
+	
+	.svg{
+		display: inline-block;
+	}
 	 
 	div.tooltip {
 	 	position: absolute;
@@ -73,13 +77,17 @@
 	<h1 id = "title"><center>Water Consumption By County in USA, 2015</center></h1>
 	<div id = "subheading"><center><b>Data from National Water Census</b></center>  </div>
 		 <script type="text/javascript">
+
+
+			// POPULATION 
+
 function popChoro(){
 	document.getElementById("subheading").innerHTML = "County Population".bold();
 	d3.select("svg").remove();
 		var width = 960, height = 600;
-		 var color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
-		 var ext_color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
-		 var legend_labels = ["89", "5195+", "9128+", "13797+", "19092+", "25963+", "37055+", "52434+", "90837+", "203336+", "10170292"]
+		var color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
+		var ext_color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
+		var legend_labels = ["< 89", "5k", "9k+", "14k+", "19k+", "26k+", "37k+", "52k+", "91k+", "200k", "1m+"]
 		 var color = d3.scale.threshold()
 		 
 		 .domain(color_domain)
@@ -87,12 +95,14 @@ function popChoro(){
 		 
 			var div = d3.select("body").append("div")
 		 .attr("class", "tooltip")
-		 .style("opacity", 0);
+		 .style("opacity", 0)
+		 
 		 
 		var svg = d3.select("body").append("svg")
 		 .attr("width", width)
 		 .attr("height", height)
-		 .style("margin", "-15px auto");
+		 .style("margin", "-15px auto")
+		 .style("display", 'block');
 		 var path = d3.geo.path()
 		 
 		queue()
@@ -185,13 +195,18 @@ function popChoro(){
 		 .attr("class", "legend_title")
 		 .text(function(){return legend_title});
 }
+
+// WATER 
+
+
 function waterChoro(){
 	document.getElementById("subheading").innerHTML = "Water Use".bold();
 	d3.select("svg").remove();
 	var width = 960, height = 600;
-		 var color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
-		 var ext_color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
-		 var legend_labels = ["89", "5000+", "9000+", "14000+", "19000+", "26000+", "37000+", "52000+", "91000+", "200000+", "10170292"]
+	
+		 var color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
+		 var ext_color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
+		 var legend_labels = ['0', '250k', '464k', '700k', '1.03m', '1.5m', '2.1m', '3.2m', '5.7m', '14m', '818m']
 		 var color = d3.scale.threshold()
 		 
 		 .domain(color_domain)
@@ -204,7 +219,9 @@ function waterChoro(){
 		var svg = d3.select("body").append("svg")
 		 .attr("width", width)
 		 .attr("height", height)
-		 .style("margin", "-15px auto");
+		 .style("margin", "-15px auto")
+		 .style("display", 'block');
+
 		 var path = d3.geo.path()
 		 
 		queue()
@@ -213,7 +230,7 @@ function waterChoro(){
 		 .await(ready);
 		 
 		function ready(error, us, data) {
-		 var pairtotal_popWithId = {};
+		 var pairgroundwater_per_dayWithId = {};
 		 var paircountyWithId = {};
 
 		//Moves selction to front
@@ -234,7 +251,7 @@ function waterChoro(){
 		};
 
 		data.forEach(function(d) {
-		 pairtotal_popWithId[d.id] = +d.total_pop;
+		 pairgroundwater_per_dayWithId[d.id] = +d.groundwater_per_day;
 		 paircountyWithId[d.id] = d.county;
 		 });
 		 svg.append("g")
@@ -244,7 +261,7 @@ function waterChoro(){
 		 .enter().append("path")
 		 .attr("d", path)
 		 .style ( "fill" , function (d) {
-		 return color (pairtotal_popWithId[d.id]);
+		 return color (pairgroundwater_per_dayWithId[d.id]);
 		 })
 		 .style("opacity", 1)
 		 .on("mouseover", function(d) {
@@ -253,7 +270,7 @@ function waterChoro(){
 		 d3.select(this).transition().duration(300).style({'opacity': 1, 'stroke': 'cyan', 'stroke-width': 3});
 		 div.transition().duration(300)
 		 .style("opacity", 0.75)
-		 div.text(paircountyWithId[d.id] + ": " + pairtotal_popWithId[d.id])
+		 div.text(paircountyWithId[d.id] + ": " + pairgroundwater_per_dayWithId[d.id])
 		 .style("left", (d3.event.pageX) + "px")
 		 .style("top", (d3.event.pageY -30) + "px");
 		 })
@@ -289,7 +306,7 @@ function waterChoro(){
 		 .attr("y", 590)
 		 .text(function(d, i){ return legend_labels[i]; });
 
-		 var legend_title = "gal/day";
+		 var legend_title = "Gal/Day";
 
 		 svg.append("text")
 		 .attr("x", 10)
@@ -299,13 +316,18 @@ function waterChoro(){
 	
 }
 
+
+//PER CAPITA
+
+
+
 function perCapitaChoro(){
 	document.getElementById("subheading").innerHTML = "Water Use Per Capita".bold();
 	d3.select("svg").remove();
 	var width = 960, height = 600;
-		 var color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
-		 var ext_color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
-		 var legend_labels = ["89", "5195+", "9128+", "13797+", "19092+", "25963+", "37055+", "52434+", "90837+", "203336+", "10170292"]
+		 var color_domain = [0, 27, 38, 47, 54, 61, 67, 74, 82, 99, 709]
+		 var ext_color_domain = [0, 27, 38, 47, 54, 61, 67, 74, 82, 99, 709]
+		 var legend_labels = ['0', '27', '38', '47', '54', '61', '67', '74', '82', '99']
 		 var color = d3.scale.threshold()
 		 
 		 .domain(color_domain)
@@ -318,7 +340,9 @@ function perCapitaChoro(){
 		var svg = d3.select("body").append("svg")
 		 .attr("width", width)
 		 .attr("height", height)
-		 .style("margin", "-15px auto");
+		 .style("margin", "-15px auto")
+		 .style("display", 'block');
+
 		 var path = d3.geo.path()
 		 
 		queue()
@@ -327,7 +351,7 @@ function perCapitaChoro(){
 		 .await(ready);
 		 
 		function ready(error, us, data) {
-		 var pairtotal_popWithId = {};
+		 var pairgal_per_capitaWithId = {};
 		 var paircountyWithId = {};
 
 		//Moves selction to front
@@ -348,7 +372,7 @@ function perCapitaChoro(){
 		};
 
 		data.forEach(function(d) {
-		 pairtotal_popWithId[d.id] = +d.total_pop;
+		 pairgal_per_capitaWithId[d.id] = +d.gal_per_capita;
 		 paircountyWithId[d.id] = d.county;
 		 });
 		 svg.append("g")
@@ -358,7 +382,7 @@ function perCapitaChoro(){
 		 .enter().append("path")
 		 .attr("d", path)
 		 .style ( "fill" , function (d) {
-		 return color (pairtotal_popWithId[d.id]);
+		 return color (pairgal_per_capitaWithId[d.id]);
 		 })
 		 .style("opacity", 1)
 		 .on("mouseover", function(d) {
@@ -403,7 +427,7 @@ function perCapitaChoro(){
 		 .attr("y", 590)
 		 .text(function(d, i){ return legend_labels[i]; });
 
-		 var legend_title = "gal/person/day";
+		 var legend_title = "Gal/Day";
 
 		 svg.append("text")
 		 .attr("x", 10)

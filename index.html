@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Per-County Population, 2015</title>
+	<title>Per-County Water Use, 2015</title>
 	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript" src="https://d3js.org/queue.v1.min.js"></script>
 	<script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
@@ -80,7 +80,7 @@
 <body>
 	<center>
 		<h1 id="title">
-			<center>Water Consumption By County in USA, 2015</center>
+		<center>Water Consumption By County in USA, 2015</center>
 		</h1>
 		<div id="subheading">
 			<center><b>Data from National Water Census</b></center>
@@ -92,6 +92,7 @@
 
 			function popChoro() {
 				document.getElementById("subheading").innerHTML = "County Population".bold();
+				document.getElementById("title").innerHTML = "County Population in USA, 2015"
 				d3.select("svg").remove();
 				var width = 960, height = 600;
 				// var color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
@@ -153,18 +154,18 @@
 						.enter().append("path")
 						.attr("d", path)
 						.style("stroke", function (d) {
-							return d3.interpolateGreens(color(Math.log(pairtotal_popWithId[d.id])));
+							return d3.interpolateCubehelixDefault(color(Math.log(pairtotal_popWithId[d.id])));
 						})
 				
 						.style("fill", function (d) {
-							return d3.interpolateGreens(color(Math.log(pairtotal_popWithId[d.id])));
+							return d3.interpolateCubehelixDefault(color(Math.log(pairtotal_popWithId[d.id])));
 						})
 						.style("opacity", 1)
 						.on("mouseover", function (d) {
 							2
 							var sel = d3.select(this);
 							sel.moveToFront();
-							d3.select(this).transition().duration(300).style({ 'opacity': 1, 'stroke': 'cyan', 'stroke-width': 3 });
+							d3.select(this).transition().duration(300).style({ 'opacity': 1, 'stroke': 'black', 'stroke-width': 2 });
 							div.transition().duration(300)
 								.style("opacity", 0.75)
 							div.text(paircountyWithId[d.id] + ": " + pairtotal_popWithId[d.id])
@@ -176,7 +177,7 @@
 							sel.moveToBack();
 							d3.select(this)
 								.transition().duration(300)
-								.style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
+								// .style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
 							div.transition().duration(300)
 								.style("opacity", 0);
 						})

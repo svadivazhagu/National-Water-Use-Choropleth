@@ -69,6 +69,54 @@
 		margin: 20px 0 0 10px;
 	}
 
+	/* The slider */
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	.slider:before {
+		position: absolute;
+		content: "";
+		height: 26px;
+		width: 26px;
+		left: 4px;
+		bottom: 4px;
+		background-color: white;
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	input:checked+.slider {
+		background-color: #2196F3;
+	}
+
+	input:focus+.slider {
+		box-shadow: 0 0 1px #2196F3;
+	}
+
+	input:checked+.slider:before {
+		-webkit-transform: translateX(26px);
+		-ms-transform: translateX(26px);
+		transform: translateX(26px);
+	}
+
+	/* Rounded sliders */
+	.slider.round {
+		border-radius: 34px;
+	}
+
+	.slider.round:before {
+		border-radius: 50%;
+	}
+
 	@media (max-width: 400px) {
 		.d3map {
 			display: none;
@@ -80,20 +128,27 @@
 <body>
 	<center>
 		<h1 id="title">
-		<center>Water Consumption By County in USA, 2015</center>
+			<center>Water Consumption by County in USA, 2015</center>
 		</h1>
 		<div id="subheading">
 			<center><b>Data from National Water Census</b></center>
 		</div>
-		<script type="text/javascript">
+		<img id="scale" />
 
+		<script type="text/javascript">
+		
 
 			// POPULATION 
 
 			function popChoro() {
+
 				document.getElementById("subheading").innerHTML = "County Population".bold();
-				document.getElementById("title").innerHTML = "County Population in USA, 2015"
+				document.getElementById("title").innerHTML = "Water Consumption by County in USA, 2015"
 				d3.select("svg").remove();
+				d3.select("button").remove();
+			
+
+				
 				var width = 960, height = 600;
 				// var color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
 				// var ext_color_domain = [89, 5195, 9128, 13797, 19092, 25963, 37055, 52434, 90837, 203336, 10170292]
@@ -112,6 +167,7 @@
 					.attr("height", height)
 					.style("margin", "-15px auto")
 					.style("display", 'block');
+				
 				var path = d3.geo.path()
 
 				queue()
@@ -156,7 +212,6 @@
 						.style("stroke", function (d) {
 							return d3.interpolateCubehelixDefault(color(Math.log(pairtotal_popWithId[d.id])));
 						})
-				
 						.style("fill", function (d) {
 							return d3.interpolateCubehelixDefault(color(Math.log(pairtotal_popWithId[d.id])));
 						})
@@ -177,68 +232,84 @@
 							sel.moveToBack();
 							d3.select(this)
 								.transition().duration(300)
-								// .style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
+							// .style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
 							div.transition().duration(300)
 								.style("opacity", 0);
 						})
 
 				};
 
-				var legend = svg.selectAll("g.legend")
-					.data(ext_color_domain)
-					.enter().append("g")
-					.attr("class", "legend");
+				// var legend = svg.selectAll("g.legend")
+				// 	.data(legend_labels)
+				// 	.enter().append("g")
+				// 	.attr("class", "legend");
 
-				var ls_w = 73, ls_h = 20;
+				// var ls_w = 73, ls_h = 20;
 
-				legend.append("rect")
-					.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
-					.attr("y", 550)
-					.attr("width", ls_w)
-					.attr("height", ls_h)
-					.style("fill", function (d, i) { return color(d); })
-					.style("opacity", 0.8);
+				// legend.append("rect")
+				// 	.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
+				// 	.attr("y", 550)
+				// 	.attr("width", ls_w)
+				// 	.attr("height", ls_h)
+				// 	.style("fill", function (d, i) { return color(d); })
+				// 	.style("opacity", 0.8);
 
-				legend.append("text")
-					.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
-					.attr("y", 590)
-					.text(function (d, i) { return legend_labels[i]; });
+				// legend.append("text")
+				// 	.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
+				// 	.attr("y", 590)
+				// 	.text(function (d, i) { return legend_labels[i]; });
 
-				var legend_title = "County Population";
+				// var legend_title = "County Population";
 
-				svg.append("text")
-					.attr("x", 10)
-					.attr("y", 540)
-					.attr("class", "legend_title")
-					.text(function () { return legend_title });
+				// svg.append("text")
+				// 	.attr("x", 10)
+				// 	.attr("y", 540)
+				// 	.attr("class", "legend_title")
+				// 	.text(function () { return legend_title });
+
+				var elem = document.getElementById("scale");
+				var img = document.createElement("img");
+				img.src = "cubehelix.png";
+				var img2 = document.createElement("img2");
+				img2.src = "magma.png";
+				//elem.appendChild(img2)
+				document.getElementById("scale").src = "cubehelix.png";
+
+		
+
+
+
 			}
 
 			// WATER 
 
 
 			function waterChoro() {
+				document.getElementById("scale").src = "";
 				document.getElementById("subheading").innerHTML = "Water Use".bold();
 				d3.select("svg").remove();
 				var width = 960, height = 600;
 
-				var color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
-				var ext_color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
+				// var color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
+				// var ext_color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
 				var legend_labels = ['0', '250k', '464k', '700k', '1.03m', '1.5m', '2.1m', '3.2m', '5.7m', '14m', '818m']
-				var color = d3.scale.threshold()
+				// var color = d3.scale.threshold()
 
-					.domain(color_domain)
-					.range(['#bed0fb', '#b0bfec', '#a2afdc', '#96a0cf', '#8a92c2', '#8087b6', '#767bab', '#6c70a0', '#58598b', '#3c3a6c', '#242153', '#151344']);
+				// 	.domain(color_domain)
+				// 	.range(['#bed0fb', '#b0bfec', '#a2afdc', '#96a0cf', '#8a92c2', '#8087b6', '#767bab', '#6c70a0', '#58598b', '#3c3a6c', '#242153', '#151344']);
+				var color = d3.scale.linear()
+					.range([0, 1]);
 
 				var div = d3.select("body").append("div")
 					.attr("class", "tooltip")
-					.style("opacity", 0);
+					.style("opacity", 0)
+
 
 				var svg = d3.select("body").append("svg")
 					.attr("width", width)
 					.attr("height", height)
 					.style("margin", "-15px auto")
 					.style("display", 'block');
-
 				var path = d3.geo.path()
 
 				queue()
@@ -250,6 +321,8 @@
 					var pairgroundwater_per_dayWithId = {};
 					var paircountyWithId = {};
 
+					let maxVal = d3.max(data, x => Math.log(+x.groundwater_per_day));
+					color.domain([0, maxVal])
 
 					//Moves selction to front
 					d3.selection.prototype.moveToFront = function () {
@@ -278,14 +351,19 @@
 						.data(topojson.feature(us, us.objects.counties).features)
 						.enter().append("path")
 						.attr("d", path)
+						.style("stroke", function (d) {
+							return d3.interpolateMagma(color(Math.log(pairgroundwater_per_dayWithId[d.id])));
+						})
+
 						.style("fill", function (d) {
-							return color(pairgroundwater_per_dayWithId[d.id]);
+							return d3.interpolateMagma(color(Math.log(pairgroundwater_per_dayWithId[d.id])));
 						})
 						.style("opacity", 1)
 						.on("mouseover", function (d) {
+							2
 							var sel = d3.select(this);
 							sel.moveToFront();
-							d3.select(this).transition().duration(300).style({ 'opacity': 1, 'stroke': 'cyan', 'stroke-width': 3 });
+							d3.select(this).transition().duration(300).style({ 'opacity': 1, 'stroke': 'black', 'stroke-width': 2 });
 							div.transition().duration(300)
 								.style("opacity", 0.75)
 							div.text(paircountyWithId[d.id] + ": " + pairgroundwater_per_dayWithId[d.id])
@@ -297,40 +375,53 @@
 							sel.moveToBack();
 							d3.select(this)
 								.transition().duration(300)
-								.style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
+							// .style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
 							div.transition().duration(300)
 								.style("opacity", 0);
 						})
 
 				};
 
-				var legend = svg.selectAll("g.legend")
-					.data(ext_color_domain)
-					.enter().append("g")
-					.attr("class", "legend");
+				// var legend = svg.selectAll("g.legend")
+				// 	.data(legend_labels)
+				// 	.enter().append("g")
+				// 	.attr("class", "legend");
 
-				var ls_w = 73, ls_h = 20;
+				// var ls_w = 73, ls_h = 20;
 
-				legend.append("rect")
-					.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
-					.attr("y", 550)
-					.attr("width", ls_w)
-					.attr("height", ls_h)
-					.style("fill", function (d, i) { return color(d); })
-					.style("opacity", 0.8);
+				// legend.append("rect")
+				// 	.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
+				// 	.attr("y", 550)
+				// 	.attr("width", ls_w)
+				// 	.attr("height", ls_h)
+				// 	.style("fill", function (d, i) { return color(d); })
+				// 	.style("opacity", 0.8);
 
-				legend.append("text")
-					.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
-					.attr("y", 590)
-					.text(function (d, i) { return legend_labels[i]; });
+				// legend.append("text")
+				// 	.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
+				// 	.attr("y", 590)
+				// 	.text(function (d, i) { return legend_labels[i]; });
 
-				var legend_title = "Gal/Day";
+				// var legend_title = "County Population";
 
-				svg.append("text")
-					.attr("x", 10)
-					.attr("y", 540)
-					.attr("class", "legend_title")
-					.text(function () { return legend_title });
+				// svg.append("text")
+				// 	.attr("x", 10)
+				// 	.attr("y", 540)
+				// 	.attr("class", "legend_title")
+				// 	.text(function () { return legend_title });
+
+				var elem = document.getElementById("scale");
+				var img = document.createElement("img");
+				img.src = "magma.png";
+				var img2 = document.createElement("img2");
+				img2.src = "magma.png";
+				//elem.appendChild(img2)
+				document.getElementById("scale").src = "magma.png";
+
+
+
+
+
 
 			}
 
@@ -340,27 +431,31 @@
 
 
 			function perCapitaChoro() {
-				document.getElementById("subheading").innerHTML = "Water Use Per Capita".bold();
+				document.getElementById("scale").src = "";
+				document.getElementById("subheading").innerHTML = "Water Use".bold();
 				d3.select("svg").remove();
 				var width = 960, height = 600;
-				var color_domain = [0, 27, 38, 47, 54, 61, 67, 74, 82, 99, 709]
-				var ext_color_domain = [0, 27, 38, 47, 54, 61, 67, 74, 82, 99, 709]
-				var legend_labels = ['0', '27', '38', '47', '54', '61', '67', '74', '82', '99']
-				var color = d3.scale.threshold()
 
-					.domain(color_domain)
-					.range(['#bed0fb', '#b0bfec', '#a2afdc', '#96a0cf', '#8a92c2', '#8087b6', '#767bab', '#6c70a0', '#58598b', '#3c3a6c', '#242153', '#151344']);
+				// var color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
+				// var ext_color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
+				var legend_labels = ['0', '250k', '464k', '700k', '1.03m', '1.5m', '2.1m', '3.2m', '5.7m', '14m', '818m']
+				// var color = d3.scale.threshold()
+
+				// 	.domain(color_domain)
+				// 	.range(['#bed0fb', '#b0bfec', '#a2afdc', '#96a0cf', '#8a92c2', '#8087b6', '#767bab', '#6c70a0', '#58598b', '#3c3a6c', '#242153', '#151344']);
+				var color = d3.scale.linear()
+					.range([0, 1]);
 
 				var div = d3.select("body").append("div")
 					.attr("class", "tooltip")
-					.style("opacity", 0);
+					.style("opacity", 0)
+
 
 				var svg = d3.select("body").append("svg")
 					.attr("width", width)
 					.attr("height", height)
 					.style("margin", "-15px auto")
 					.style("display", 'block');
-
 				var path = d3.geo.path()
 
 				queue()
@@ -371,6 +466,9 @@
 				function ready(error, us, data) {
 					var pairgal_per_capitaWithId = {};
 					var paircountyWithId = {};
+
+					let maxVal = d3.max(data, x => Math.log(+x.gal_per_capita));
+					color.domain([0, maxVal])
 
 					//Moves selction to front
 					d3.selection.prototype.moveToFront = function () {
@@ -399,17 +497,22 @@
 						.data(topojson.feature(us, us.objects.counties).features)
 						.enter().append("path")
 						.attr("d", path)
+						.style("stroke", function (d) {
+							return d3.interpolatePuRd(color(Math.log(pairgal_per_capitaWithId[d.id])));
+						})
+
 						.style("fill", function (d) {
-							return color(pairgal_per_capitaWithId[d.id]);
+							return d3.interpolatePuRd(color(Math.log(pairgal_per_capitaWithId[d.id])));
 						})
 						.style("opacity", 1)
 						.on("mouseover", function (d) {
+							2
 							var sel = d3.select(this);
 							sel.moveToFront();
-							d3.select(this).transition().duration(300).style({ 'opacity': 1, 'stroke': 'cyan', 'stroke-width': 3 });
+							d3.select(this).transition().duration(300).style({ 'opacity': 1, 'stroke': 'black', 'stroke-width': 2 });
 							div.transition().duration(300)
 								.style("opacity", 0.75)
-							div.text(paircountyWithId[d.id] + ": " + pairtotal_popWithId[d.id])
+							div.text(paircountyWithId[d.id] + ": " + pairgal_per_capitaWithId[d.id])
 								.style("left", (d3.event.pageX) + "px")
 								.style("top", (d3.event.pageY - 30) + "px");
 						})
@@ -418,45 +521,53 @@
 							sel.moveToBack();
 							d3.select(this)
 								.transition().duration(300)
-								.style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
+							// .style({ 'opacity': 1, 'stroke': 'white', 'stroke-width': 2 });
 							div.transition().duration(300)
 								.style("opacity", 0);
 						})
 
 				};
 
-				var legend = svg.selectAll("g.legend")
-					.data(ext_color_domain)
-					.enter().append("g")
-					.attr("class", "legend");
+				// var legend = svg.selectAll("g.legend")
+				// 	.data(legend_labels)
+				// 	.enter().append("g")
+				// 	.attr("class", "legend");
 
-				var ls_w = 73, ls_h = 20;
+				// var ls_w = 73, ls_h = 20;
 
-				legend.append("rect")
-					.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
-					.attr("y", 550)
-					.attr("width", ls_w)
-					.attr("height", ls_h)
-					.style("fill", function (d, i) { return color(d); })
-					.style("opacity", 0.8);
+				// legend.append("rect")
+				// 	.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
+				// 	.attr("y", 550)
+				// 	.attr("width", ls_w)
+				// 	.attr("height", ls_h)
+				// 	.style("fill", function (d, i) { return color(d); })
+				// 	.style("opacity", 0.8);
 
-				legend.append("text")
-					.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
-					.attr("y", 590)
-					.text(function (d, i) { return legend_labels[i]; });
+				// legend.append("text")
+				// 	.attr("x", function (d, i) { return width - (i * ls_w) - ls_w; })
+				// 	.attr("y", 590)
+				// 	.text(function (d, i) { return legend_labels[i]; });
 
-				var legend_title = "Gal/Day";
+				// var legend_title = "County Population";
 
-				svg.append("text")
-					.attr("x", 10)
-					.attr("y", 540)
-					.attr("class", "legend_title")
-					.text(function () { return legend_title });
-			}
+				// svg.append("text")
+				// 	.attr("x", 10)
+				// 	.attr("y", 540)
+				// 	.attr("class", "legend_title")
+				// 	.text(function () { return legend_title });
+
+				var elem = document.getElementById("scale");
+				var img = document.createElement("img");
+				img.src = "purd.png";
+				var img2 = document.createElement("img2");
+				img2.src = "purd.png";
+				//elem.appendChild(img2)
+				document.getElementById("scale").src = "purd.png";			 }
 
 		</script>
 	</center>
-	<p><i>Source: U.S. Census, 2015</i></p>
+	
+
 </body>
 <div id="population">
 	<input name="updateButton" type="button" value="Population" onclick="popChoro()" />
@@ -467,7 +578,6 @@
 <div id="population">
 	<input name="updateButton" type="button" value="Per Capita" onclick="perCapitaChoro()" />
 </div>
-
 
 
 </html>

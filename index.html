@@ -498,11 +498,11 @@
 						.enter().append("path")
 						.attr("d", path)
 						.style("stroke", function (d) {
-							return d3.interpolatePuRd(color(Math.log(pairgal_per_capitaWithId[d.id])));
+							return d3.interpolateSinebow(color(Math.log(pairgal_per_capitaWithId[d.id])));
 						})
 
 						.style("fill", function (d) {
-							return d3.interpolatePuRd(color(Math.log(pairgal_per_capitaWithId[d.id])));
+							return d3.interpolateSinebow(color(Math.log(pairgal_per_capitaWithId[d.id])));
 						})
 						.style("opacity", 1)
 						.on("mouseover", function (d) {
@@ -558,11 +558,11 @@
 
 				var elem = document.getElementById("scale");
 				var img = document.createElement("img");
-				img.src = "purd.png";
+				img.src = "purd.PNG";
 				var img2 = document.createElement("img2");
-				img2.src = "purd.png";
+				img2.src = "purd.PNG";
 				//elem.appendChild(img2)
-				document.getElementById("scale").src = "purd.png";			 }
+				document.getElementById("scale").src = "purd.PNG";			 }
 
 		</script>
 	</center>

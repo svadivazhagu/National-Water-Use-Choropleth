@@ -286,7 +286,7 @@
 
 			function waterChoro() {
 				document.getElementById("scale").src = "";
-				document.getElementById("subheading").innerHTML = "Water Use".bold();
+				document.getElementById("subheading").innerHTML = "Water Use By County (Gal)".bold();
 				d3.select("svg").remove();
 				var width = 960, height = 600;
 
@@ -432,13 +432,12 @@
 
 			function perCapitaChoro() {
 				document.getElementById("scale").src = "";
-				document.getElementById("subheading").innerHTML = "Water Use".bold();
+				document.getElementById("subheading").innerHTML = "Water Use Per Capita (Gal)".bold();
 				d3.select("svg").remove();
 				var width = 960, height = 600;
 
 				// var color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
 				// var ext_color_domain = [0, 250000, 464000, 700000, 1030000, 1460000, 2112000, 3190000, 5686000, 14010000, 817880000]
-				var legend_labels = ['0', '250k', '464k', '700k', '1.03m', '1.5m', '2.1m', '3.2m', '5.7m', '14m', '818m']
 				// var color = d3.scale.threshold()
 
 				// 	.domain(color_domain)
@@ -558,11 +557,11 @@
 
 				var elem = document.getElementById("scale");
 				var img = document.createElement("img");
-				img.src = "purd.PNG";
+				img.src = "sinebow.PNG";
 				var img2 = document.createElement("img2");
-				img2.src = "purd.PNG";
+				img2.src = "sinebow.PNG";
 				//elem.appendChild(img2)
-				document.getElementById("scale").src = "purd.PNG";			 }
+				document.getElementById("scale").src = "sinebow.PNG";			 }
 
 		</script>
 	</center>

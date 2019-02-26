@@ -44,11 +44,20 @@ I chose this vis to remix because I didn't like how they didn't utilize the coun
 Cleaning the data was made possible using the `DataFrame` data structure in the Pandas Python 3 module. Essentially, I used the included Data Dictionary workbook in the Excel spreadsheet presented to me to determine which columns were of interest for this visualization project. Basically, I determined that I wanted to keep the population, daily groundwater use, and a few other columns (this is for the topoJSON module so that d3 would be able to know where each county was on the USA country map.) 
 
 Another important thing I did was ensure that the data was used in the same scale- for example, originally the `population` attribute as measured by USGS was given in the unit of thousands of people, while the `daily_groundwater` attribute(and any other attribute dealing with water consumption) dealt in millions of gallons. This meant that in order to calculate the `per_capita` column that I created, I had to manipulate the water use columns and the population such that they were multiplied by 1 million and 1 thousand, respectively, such that they would be normalized down to 1 person and 1 gallon. 
+Here's what the `head()` of the dataframe looked like before and after I cleaned it:
+
+#### Before
+![beforeCleaning](https://i.imgur.com/Hu4kSWw.png)
+#### After
+![afterCleaning](https://i.imgur.com/1UnbVHh.png)
+
+Long story short, I cut the amount of data from 143 attributes to 6 attributes, and normalized all the metrics to be down to the single unit (from M/gal to gal and thousand of person to just person) and added my own column of water use per capita by using 2 other columns.
 
 ### Visualizing the data
 I decided to do a choropleth map after taking a look at Mike Bostock's choropleth [map](https://observablehq.com/@d3/d3-choropleth) of unemployment rate in the USA in 2016. I realized that choropleth maps were great ways to show a large amount of data across a limited spatial axis. Since the country is the map itself, the other important thing was finding an accurate color scale/scheme that made perceptual differences in the data easy to visualize. Because of this, I took much care in choosing color maps that would accurately depict the data while preserving high perceptual differences between quantities. 
 
-
+### Why I don't like border lines
+You may notice that border lines for each county are missing in this visualization. I decided to remove them because the purpose of this choropleth map is to examine the distribution of water consumption across the United States; not to individually look at each county's water consumption. While this is possible thanks to the interactive tooltip, removing the border lines makes comprehending the graph's trends a lot easier. For example, with the population one you can see cities like the New York area and other cities(like Philadelphia, Atlanta, etc.) that stand out amongst neigbhoring, smaller counties are easily visible this way. Had borders been introduced, this perception would be much more challenging as the user would be examining the map county-by-county and failing to understanding the country-wide implications of the water consumption.
 
 #### About the `Log()`
 I used a logarithmically scaling function when calculating shades of color (in the `d3.scale`). This is because in this particular dataset, the values would often scale quite rapidly- for the `groundwater_per_day` attribute (county water use per day) the data would be distributed quite unevenly, with a large amount of small values, few values close to the average, and several extremely high values. Los Angeles County, the county drawing the most water for 2015, had close to 820 million gallons drawn a day, while the average water consumption was only 211,000 gallons. To prevent disparities in the shading of these data points, I used a `Math.log()` when calculating the domain to be passed on to the continuously mapping color scale. This ensured that **larger values would be emphasized less to allow for smaller differences between data points to become more visible through the color.**
@@ -89,24 +98,27 @@ While these values are shocking and the trends easily visualizable through the c
 ## Achievements
 
 ### Technical
-- Complete data reshaping 
+- Complete data reshaping: I took a dataset that had over 140 columns and determined which ones I needed, stripped those from the original datset, and then created a new column, `per_capita` using the columns I had extracted.
 
-- Interactivity through tooltips
-
-- Website runs smoothly- operations only run when the user calls for it.
-- Data shaping of units to normalize to one standard unit
-- Creation of new column (not previously in USGS dataset)
-- Minification of code to prevent security flaws/expose vulnerabilities
+- Interactivity through tooltips: I created an `onhover`-based tooltip system that helped users interact with the graphs to hover over the particular county they're interested in to reveal the value for that county, per the attribute whose graph they are currently on.
+- Website runs smoothly- operations only run when the user calls for it. This means that the loading time for the website is extremely fast despite it rendering 3 d3 graphs.
+  
+- Data shaping of units to normalize to one standard unit: In the dataset the values were not equal in terms of the unit, they should be based around one unit of whatever metric was based off of; for example M/gal to gal or thousand people/individual person. I rewrote this and created a new csv using this system. 
+- Creation of new column (not previously in USGS dataset) USGS should have done some research into water use per capita and strategies for minimizing water consumption. While I didn't have time to do the latter,  I definitely did the former and extracted daily water use alongside with population statistics to determine water use per capita per day for more insights to be drawn from the graphs.
+- Minification of code to prevent security flaws/expose vulnerabilities and making it HTTPS by default: Security concerns are huge with web development and two things I did with my project- minifying the JavaScript code within the HTML to prevent external attackers reading it, and making it HTTPS to enhance the security and verifiability of the site.
 - Creating logarithmic scaling for each data point to make interpretation of the vis more sensible and to ensure large quantities wouldn't be expressed so pronouncedly and emphasize the differences between small quantities. 
 
 
 
 
 ### Design
-- Colormaps tailored to attribute
-- Scale for understanding
-- Text changing automatically in response to map selected
-- Research in perceptual differences in color channels to discover most efficient color scale with respect to variances in data.
+- Colormaps tailored to attribute: I spent a lot of time identifying colormaps whose scaling was most correlational to the scaling in the dataset I was working with. For example, data that fluctuates rapidly does not befit a cyclical colormap, which is why I didn't use Sinebow for the Daily Water Use category, but for the Per Capita graph instead, as the data is more balanced in terms of distribution with that column. 
+  
+- Scale for understanding: I provided a scale with the 0%, 50%, and 100% quantiles included to give a visual mapping to the data so viewers could generally get a feeling of what the quantifiable values were for the colors. While they can just hover over it to see the individual measurement, including a legend is important so they can get a general feel of how the data is shaped in overall.
+  
+- Text changing automatically in response to map selected: All the text ranging from the title to the subheading change in response to what option the user selects, ensuring that they see only relevant information.
+- Research in perceptual differences in color channels to discover most efficient color scale with respect to variances in data: Going from the previous achievement about color scales, the actual scaling technique was also different in each colorscale. For example, the Cubehelix scaling is much slower in respect to the blues and greens than the magma color scale, which aims to make the differences between those colors more well known. 
+- History of interaction with the visualization: So that the user can keep an interactive history of their interaction with the visualization, I added a black border around counties they have hovered on, as a sort of history for the user. They can keep track of where they've looked or make the border of the county well-defined this way. This solves the problem of being unable to individually distinguish a county's values due to the lack of border lines. The user can interact with the graph to select and highlight the border of the counties they've interacted with.
 
 ---
 

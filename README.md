@@ -5,7 +5,7 @@
 
 ---
 ## What?
-I created a choropleth map of the United States that displayed data from each county for the attributes of 
+I created an interactive choropleth map of the United States that displayed data from each county for the attributes of 
 
 - County population
 - County's daily use of water for domestic purposes, in gallons
@@ -46,6 +46,8 @@ Cleaning the data was made possible using the `DataFrame` data structure in the 
 Another important thing I did was ensure that the data was used in the same scale- for example, originally the `population` attribute as measured by USGS was given in the unit of thousands of people, while the `daily_groundwater` attribute(and any other attribute dealing with water consumption) dealt in millions of gallons. This meant that in order to calculate the `per_capita` column that I created, I had to manipulate the water use columns and the population such that they were multiplied by 1 million and 1 thousand, respectively, such that they would be normalized down to 1 person and 1 gallon. 
 
 ### Visualizing the data
+I decided to do a choropleth map after taking a look at Mike Bostock's choropleth [graph](https://observablehq.com/@d3/d3-choropleth) of unemployment rate in the USA in 2016. I realized that choropleth maps were great ways to show a large amount of data across a limited spatial axis. Since the country is the graph itself, the other important thing was finding an accurate color scale/scheme that made perceptual differences in the data easy to visualize. Because of this, I took much care in choosing color maps that would accurately depict the data while preserving high perceptual differences between quantities. 
+
 
 
 #### About the `Log()`
@@ -78,16 +80,33 @@ Essentially, the point that got me interested was with how the variances between
 
 ## Takeaways
 
+There are a *lot* of takeaways from this visualization project. First and foremost is that the majority of Americans do in fact waste domestic water on a significant level. It was found that the most wasteful of counties was Rich County, UT, with an average of 710 gallons of water per capita every day. 
+While these values are shocking and the trends easily visualizable through the choropleth map I made, there are definitely some next steps that could have been taken with this project had there been more time for its completion. First and foremost, I would have done some "next-steps" work in researching and attemping to visualize a breakdown of how people use their domestic water. This would require a much more specific dataset as the one provided by the USGS for 2015 only broke the consumption down to domestic, industrial, agricultural, etc. categories. Further insights could be drawn about how we as Americans use our water and ways we could lessen our water use responsibly.
+
+
 ---
 
 ## Achievements
 
 ### Technical
+- Complete data reshaping 
+
+- Interactivity through tooltips
+
+- Website runs smoothly- operations only run when the user calls for it.
+- Data shaping of units to normalize to one standard unit
+- Creation of new column (not previously in USGS dataset)
+- Minification of code to prevent security flaws/expose vulnerabilities
+- Creating logarithmic scaling for each data point to make interpretation of the vis more sensible and to ensure large quantities wouldn't be expressed so pronouncedly and emphasize the differences between small quantities. 
+
 
 
 
 ### Design
-
+- Colormaps tailored to attribute
+- Scale for understanding
+- Text changing automatically in response to graph selected
+- Research in perceptual differences in color channels to discover most efficient color scale with respect to variances in data.
 
 ---
 
@@ -98,4 +117,10 @@ Dataset was obtained by downloading the .csv from the USGS website. A citation t
 Version 2.0:  Dieter, C.A., Linsey, K.S., Caldwell, R.R., Harris, M.A., Ivahnenko, T.I., Lovelace, J.K., Maupin, M.A., and Barber, N.L., 2018, Estimated use of water in the United States county-level data for 2015 (ver. 2.0, June 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F7TB15V5.
 
 
+Other papers referenced include:
+"A colour scheme for the display of astronomical intensity
+images" by D.A. Green (2011) accessible [here](http://astron-soc.in/bulletin/11June/289392011.pdf)
 
+"Interactive maps for visual data exploration" by Andrienko et al. (1999) accessible [here](https://www.tandfonline.com/doi/pdf/10.1080/136588199241247?needAccess=true) that discuss how choropleth maps are very good for the analysis of data across geographical locations, and the merits of strong color scales for this purpose.
+
+"Mapping Mortality: Evaluating Color Schemes for Choropleth Maps" by Brewer et al. 

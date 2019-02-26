@@ -51,6 +51,7 @@ I used a logarithmic scaler when calculating shades of color (in the `d3.scale`)
 -   [*Magma*](https://bids.github.io/colormap/) - Groundwater consumption
     - The magma color scheme was designed by Stéfan van der Walt and Nathaniel Smith for the `matplotlib` graphing library. These two scientists presented a [talk](https://www.youtube.com/watch?v=xAoljeRJ3lU) in 2015 regarding Scientific Computing with Python wherein they discussed the merits of their new color schemes. Essentially, their presentation was about designing a set of color scales that would not only be perceptually simple to measure differences in data but also comprehendable by people with color blindness. For the magma colormap specifically, they wanted to design a blue to red to yellow sequence as they found it was easy for those with colorblindness to read. Furthermore, they designed the scale such that it is 
     > analytically perfectly perceptually-uniform, both in regular form and also when converted to black-and-white.
+    
 This makes the interpretation of the scale feasible across many dimensions, which is why I chose it for this project. 
 
 ---

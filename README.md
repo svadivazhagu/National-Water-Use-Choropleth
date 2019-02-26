@@ -26,6 +26,8 @@ The graph I chose to "remix" was constructed by the USGS ([United States Geologi
 
 ![usgs_graph](https://water.usgs.gov/watuse/images/category-pages/2015/total-withdrawals.png)
 
+I chose this vis to remix because I didn't like how they didn't utilize the county-level data at all, instead only preferring to average the values and display it across a state-level. It really limits the amount of information that this dataset could communicate to a reader and doesn't have any interactivity at all. Plus, they used the basic `steelblue` color scale and while it is a valid sequential scheme, I thought (and made possible) there were better ways to color this data in response to the trends. 
+
 ---
 
 
@@ -34,13 +36,20 @@ The graph I chose to "remix" was constructed by the USGS ([United States Geologi
 
 ### Obtaining the data
 
+ I obtained the data from [here](https://www.sciencebase.gov/catalog/item/get/5af3311be4b0da30c1b245d8). It was downloadable as a csv.
+
 
 ### Cleaning the data
 
+Cleaning the data was made possible using the `DataFrame` data structure in the Pandas Python 3 module. Essentially, I used the included Data Dictionary workbook in the Excel spreadsheet presented to me to determine which columns were of interest for this visualization project. Basically, I determined that I wanted to keep the population, daily groundwater use, and a few other columns (this is for the topoJSON module so that d3 would be able to know where each county was on the USA country map.) 
+
+Another important thing I did was ensure that the data was used in the same scale- for example, originally the `population` attribute as measured by USGS was given in the unit of thousands of people, while the `daily_groundwater` attribute(and any other attribute dealing with water consumption) dealt in millions of gallons. This meant that in order to calculate the `per_capita` column that I created, I had to manipulate the water use columns and the population such that they were multiplied by 1 million and 1 thousand, respectively, such that they would be normalized down to 1 person and 1 gallon. 
+
 ### Visualizing the data
 
+
 #### About the `Log()`
-I used a logarithmic scaler when calculating shades of color (in the `d3.scale`). This is because in this particular dataset, the values would often scale quite rapidly- for the `groundwater_per_day` attribute (county water use per day) the data would be distributed quite unevenly, with a large amount of small values, few values close to the average, and several extremely high values. Los Angeles County, the county drawing the most water for 2015, had close to 820 million gallons drawn a day, while the average water consumption was only 211,000 gallons. To prevent disparities in the shading of these data points, I used a `Math.log()` when calculating the domain to be passed on to the continuously mapping color scale. This ensured that **larger values would be emphasized less to allow for smaller differences between data points to become more visible through the color.**
+I used a logarithmically scaling function when calculating shades of color (in the `d3.scale`). This is because in this particular dataset, the values would often scale quite rapidly- for the `groundwater_per_day` attribute (county water use per day) the data would be distributed quite unevenly, with a large amount of small values, few values close to the average, and several extremely high values. Los Angeles County, the county drawing the most water for 2015, had close to 820 million gallons drawn a day, while the average water consumption was only 211,000 gallons. To prevent disparities in the shading of these data points, I used a `Math.log()` when calculating the domain to be passed on to the continuously mapping color scale. This ensured that **larger values would be emphasized less to allow for smaller differences between data points to become more visible through the color.**
 
 
 #### About the <span style="color:steelblue">Colormaps</span>
@@ -52,6 +61,16 @@ I used a logarithmic scaler when calculating shades of color (in the `d3.scale`)
     - The magma color scheme was designed by Stéfan van der Walt and Nathaniel Smith for the `matplotlib` graphing library. These two scientists presented a [talk](https://www.youtube.com/watch?v=xAoljeRJ3lU) in 2015 regarding Scientific Computing with Python wherein they discussed the merits of their new color schemes. Essentially, their presentation was about designing a set of color scales that would not only be perceptually simple to measure differences in data but also comprehendable by people with color blindness. For the magma colormap specifically, they wanted to design a blue to red to yellow sequence as they found it was easy for those with colorblindness to read. Furthermore, they designed the scale such that it is 
     > analytically perfectly perceptually-uniform, both in regular form and also when converted to black-and-white.
 This makes the interpretation of the scale feasible across many dimensions, which is why I chose it for this project. 
+
+- [*Sinebow*](http://basecase.org/env/on-rainbows)
+  - The sinebow is an interesting color scheme. While Munzner, in *Visualization Analysis & Design* does state that choropleth maps need to be represented by "sequentially segmented colormaps" (Munzner, p.181), I chose this color scheme, regardless of the fact that it is a cyclical scheme. This scheme came about Charlie Lloyd, one of its creators, realizing that on typical monitors, certain colors are harder to distinguish than others. In Lloyd's words, 
+  > So we can’t use HSV like this when we want the colored elements to have anything close to equal visual weight against any solid background.
+
+  Typically, the cyclical rainbow scheme is draw using the HSV colorspace however with the sinebow the transitions between colors are mapped much smoother and allow for a gradual difference in the data. I wanted to use this color scheme despite it being a cyclical one because according to Lloyd and the comparison between HSV and Sinebow that he created (shown below):
+
+![hsv_sinebow](https://i.imgur.com/BiSdKWQ.png)
+
+Essentially, the point that got me interested was with how the variances between each color is so smooth in Sinebow- look at the transition between the cyan and the blue, for example. In HSV it's very easy to see how they're segregated, but in Sinebow the transition is so smooth it's hard to spot this sort of boundary line. This means that variances of interest (variances between data points that are large enough to be of interest to the data scientist) are much easily noticed using the Sinebow pattern. I was able to prove this ease of visualization when the graph showed that Utah as a state was the most using of fresh water, and [this](https://www.ksl.com/article/46345981/each-utahn-uses-an-average-of-242-gallons-of-water-per-day) article explains how the average Utahn uses the most amount of water per day than any other state. Both our datasets were different, and yet this observation was extremely simple to be made using my visualization through this sinebow scheme.
 
 ---
 

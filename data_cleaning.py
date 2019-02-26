@@ -5,10 +5,7 @@ getcontext().prec = 2
 # Data cleaning for a4-remix
 
 
-water_global = pd.read_csv('data/water_cleaned_2015.csv')
 water_counties = pd.read_csv('data/water_counties.csv')
-
-water_global= water_global.set_index('Country')
 
 
 water_counties['id'] = water_counties['FIPS']
@@ -31,13 +28,17 @@ water_counties_final = water_counties_filtered[['state', 'total_pop', 'groundwat
 #print(water_counties_final.sort_values(by='gal_per_person', ascending=False).head())
 
 
-water_counties_final.to_csv('data/water_counties_cleaned.csv')
+#water_counties_final.to_csv('data/water_counties_cleaned.csv')
 
-quantiles = []
-for i in np.arange(0, 1.1, 0.1):
-    quantiles.append((int(water_counties_final['groundwater_per_day'].quantile(i))))
-print(quantiles)
+#Code for printing out the quantiles of a column
+# quantiles = []
+# for i in np.arange(0, 1.1, 0.1):
+#     quantiles.append((int(water_counties_final['groundwater_per_day'].quantile(i))))
+# print(quantiles)
 
 
-#calculation for
+
+#calculation for heads across cleaned and uncleaned:
+print(water_counties.head())
+print(water_counties_final.head())
 

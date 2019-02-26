@@ -22,9 +22,9 @@ Check it out [here!](https://svadivazhagu.github.io/04-Remix/)
 
 ## Inspiration Visualization
 
-The graph I chose to "remix" was constructed by the USGS ([United States Geological Survey](https://www.usgs.gov/)) using a data release supplied by them in 2015 for water consumption records by sector of water use per county. The original graph is shown here:
+The map I chose to "remix" was constructed by the USGS ([United States Geological Survey](https://www.usgs.gov/)) using a data release supplied by them in 2015 for water consumption records by sector of water use per county. The original map is shown here:
 
-![usgs_graph](https://water.usgs.gov/watuse/images/category-pages/2015/total-withdrawals.png)
+![usgs_map](https://water.usgs.gov/watuse/images/category-pages/2015/total-withdrawals.png)
 
 I chose this vis to remix because I didn't like how they didn't utilize the county-level data at all, instead only preferring to average the values and display it across a state-level. It really limits the amount of information that this dataset could communicate to a reader and doesn't have any interactivity at all. Plus, they used the basic `steelblue` color scale and while it is a valid sequential scheme, I thought (and made possible) there were better ways to color this data in response to the trends. 
 
@@ -46,7 +46,7 @@ Cleaning the data was made possible using the `DataFrame` data structure in the 
 Another important thing I did was ensure that the data was used in the same scale- for example, originally the `population` attribute as measured by USGS was given in the unit of thousands of people, while the `daily_groundwater` attribute(and any other attribute dealing with water consumption) dealt in millions of gallons. This meant that in order to calculate the `per_capita` column that I created, I had to manipulate the water use columns and the population such that they were multiplied by 1 million and 1 thousand, respectively, such that they would be normalized down to 1 person and 1 gallon. 
 
 ### Visualizing the data
-I decided to do a choropleth map after taking a look at Mike Bostock's choropleth [graph](https://observablehq.com/@d3/d3-choropleth) of unemployment rate in the USA in 2016. I realized that choropleth maps were great ways to show a large amount of data across a limited spatial axis. Since the country is the graph itself, the other important thing was finding an accurate color scale/scheme that made perceptual differences in the data easy to visualize. Because of this, I took much care in choosing color maps that would accurately depict the data while preserving high perceptual differences between quantities. 
+I decided to do a choropleth map after taking a look at Mike Bostock's choropleth [map](https://observablehq.com/@d3/d3-choropleth) of unemployment rate in the USA in 2016. I realized that choropleth maps were great ways to show a large amount of data across a limited spatial axis. Since the country is the map itself, the other important thing was finding an accurate color scale/scheme that made perceptual differences in the data easy to visualize. Because of this, I took much care in choosing color maps that would accurately depict the data while preserving high perceptual differences between quantities. 
 
 
 
@@ -58,9 +58,9 @@ I used a logarithmically scaling function when calculating shades of color (in t
 
 
 - [*Cubehelix*](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/) - County population
-  - This scheme was developed by Dave Green for implementation in the astronomy field. This scheme was developed out of a lack of color schemes that had an increase in "the perception of the brightness of the colours used". The cubehelix scheme is studied extensively in Dave Green's 2011 [paper](http://astron-soc.in/bulletin/11June/289392011.pdf) at Cambridge University. The breakthrough in color perception that Green brought on is introducing a color scale that monotonically increased in perceived brightness in response to values in the data. According to Green's research, the cubehelix scale is extremely efficient when it comes to noting the difference in items across a large set of items. I used it in this project for this very case. I knew that there are a lot of counties in the USA(~3000 are represented in my visualization) and thus understanding differences in population(an attribute that typically stays the same within given regions of land) would be made far easier. Users can examine the difference in perceived brightness and understand the meaning of the graph easier, as it has been shown that humans are able to perceive light and color very well. Translating the challenge in cognition to just mapping the differences in brightness out makes the amount of time spent understanding the relationship between county populations across America much faster.
+  - This scheme was developed by Dave Green for implementation in the astronomy field. This scheme was developed out of a lack of color schemes that had an increase in "the perception of the brightness of the colours used". The cubehelix scheme is studied extensively in Dave Green's 2011 [paper](http://astron-soc.in/bulletin/11June/289392011.pdf) at Cambridge University. The breakthrough in color perception that Green brought on is introducing a color scale that monotonically increased in perceived brightness in response to values in the data. According to Green's research, the cubehelix scale is extremely efficient when it comes to noting the difference in items across a large set of items. I used it in this project for this very case. I knew that there are a lot of counties in the USA(~3000 are represented in my visualization) and thus understanding differences in population(an attribute that typically stays the same within given regions of land) would be made far easier. Users can examine the difference in perceived brightness and understand the meaning of the map easier, as it has been shown that humans are able to perceive light and color very well. Translating the challenge in cognition to just mapping the differences in brightness out makes the amount of time spent understanding the relationship between county populations across America much faster.
 -   [*Magma*](https://bids.github.io/colormap/) - Groundwater consumption
-    - The magma color scheme was designed by Stéfan van der Walt and Nathaniel Smith for the `matplotlib` graphing library. These two scientists presented a [talk](https://www.youtube.com/watch?v=xAoljeRJ3lU) in 2015 regarding Scientific Computing with Python wherein they discussed the merits of their new color schemes. Essentially, their presentation was about designing a set of color scales that would not only be perceptually simple to measure differences in data but also comprehendable by people with color blindness. For the magma colormap specifically, they wanted to design a blue to red to yellow sequence as they found it was easy for those with colorblindness to read. Furthermore, they designed the scale such that it is 
+    - The magma color scheme was designed by Stéfan van der Walt and Nathaniel Smith for the `matplotlib` maping library. These two scientists presented a [talk](https://www.youtube.com/watch?v=xAoljeRJ3lU) in 2015 regarding Scientific Computing with Python wherein they discussed the merits of their new color schemes. Essentially, their presentation was about designing a set of color scales that would not only be perceptually simple to measure differences in data but also comprehendable by people with color blindness. For the magma colormap specifically, they wanted to design a blue to red to yellow sequence as they found it was easy for those with colorblindness to read. Furthermore, they designed the scale such that it is 
     > analytically perfectly perceptually-uniform, both in regular form and also when converted to black-and-white.
     
 This makes the interpretation of the scale feasible across many dimensions, which is why I chose it for this project. 
@@ -73,7 +73,7 @@ This makes the interpretation of the scale feasible across many dimensions, whic
 
 ![hsv_sinebow](https://i.imgur.com/BiSdKWQ.png)
 
-Essentially, the point that got me interested was with how the variances between each color is so smooth in Sinebow- look at the transition between the cyan and the blue, for example. In HSV it's very easy to see how they're segregated, but in Sinebow the transition is so smooth it's hard to spot this sort of boundary line. This means that variances of interest (variances between data points that are large enough to be of interest to the data scientist) are much easily noticed using the Sinebow pattern. I was able to prove this ease of visualization when the graph showed that Utah as a state was the most using of fresh water, and [this](https://www.ksl.com/article/46345981/each-utahn-uses-an-average-of-242-gallons-of-water-per-day) article explains how the average Utahn uses the most amount of water per day than any other state. Both our datasets were different, and yet this observation was extremely simple to be made using my visualization through this sinebow scheme.
+Essentially, the point that got me interested was with how the variances between each color is so smooth in Sinebow- look at the transition between the cyan and the blue, for example. In HSV it's very easy to see how they're segregated, but in Sinebow the transition is so smooth it's hard to spot this sort of boundary line. This means that variances of interest (variances between data points that are large enough to be of interest to the data scientist) are much easily noticed using the Sinebow pattern. I was able to prove this ease of visualization when the map showed that Utah as a state was the most using of fresh water, and [this](https://www.ksl.com/article/46345981/each-utahn-uses-an-average-of-242-gallons-of-water-per-day) article explains how the average Utahn uses the most amount of water per day than any other state. Both our datasets were different, and yet this observation was extremely simple to be made using my visualization through this sinebow scheme.
 
 ---
 
@@ -105,7 +105,7 @@ While these values are shocking and the trends easily visualizable through the c
 ### Design
 - Colormaps tailored to attribute
 - Scale for understanding
-- Text changing automatically in response to graph selected
+- Text changing automatically in response to map selected
 - Research in perceptual differences in color channels to discover most efficient color scale with respect to variances in data.
 
 ---
@@ -121,6 +121,6 @@ Other papers referenced include:
 "A colour scheme for the display of astronomical intensity
 images" by D.A. Green (2011) accessible [here](http://astron-soc.in/bulletin/11June/289392011.pdf)
 
-"Interactive maps for visual data exploration" by Andrienko et al. (1999) accessible [here](https://www.tandfonline.com/doi/pdf/10.1080/136588199241247?needAccess=true) that discuss how choropleth maps are very good for the analysis of data across geographical locations, and the merits of strong color scales for this purpose.
+"Interactive maps for visual data exploration" by Andrienko et al. (1999) accessible [here](https://www.tandfonline.com/doi/pdf/10.1080/136588199241247?needAccess=true) that discuss how choropleth maps are very good for the analysis of data across geograpical locations, and the merits of strong color scales for this purpose.
 
-"Mapping Mortality: Evaluating Color Schemes for Choropleth Maps" by Brewer et al. 
+"Mapping Mortality: Evaluating Color Schemes for Choropleth Maps" by Brewer et al. accessible [here](https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-8306.00061) that helped me determine what qualities were essential when finding a color map for choropleth maps in particular.

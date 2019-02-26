@@ -1,6 +1,6 @@
 # Assignment 4 - Visualization Remix
-## Per-Country Fresh Water Consumption, 2014
-## [Surya Vadivazhagu](users.wpi.edu/~svadivazhagu), CS-480X'C19 @ WPI
+## Per-Country Fresh Water Consumption, 2015
+### [Surya Vadivazhagu](users.wpi.edu/~svadivazhagu), CS-480X'C19 @ WPI
 ### Spring 2019
 
 ---

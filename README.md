@@ -92,6 +92,8 @@ Essentially, the point that got me interested was with how the variances between
 There are a *lot* of takeaways from this visualization project. First and foremost is that the majority of Americans do in fact waste domestic water on a significant level. It was found that the most wasteful of counties was Rich County, UT, with an average of 710 gallons of water per capita every day. 
 While these values are shocking and the trends easily visualizable through the choropleth map I made, there are definitely some next steps that could have been taken with this project had there been more time for its completion. First and foremost, I would have done some "next-steps" work in researching and attemping to visualize a breakdown of how people use their domestic water. This would require a much more specific dataset as the one provided by the USGS for 2015 only broke the consumption down to domestic, industrial, agricultural, etc. categories. Further insights could be drawn about how we as Americans use our water and ways we could lessen our water use responsibly.
 
+I believe that my set of visualizations definetly reveals more information than the original USGS graph and allows for even more insights to be made through the use of my data synthesis and the unique colormaps I made use of for this project.
+
 
 ---
 

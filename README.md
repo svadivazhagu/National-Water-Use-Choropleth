@@ -109,6 +109,7 @@ I believe that my set of visualizations definetly reveals more information than 
 - Creation of new column (not previously in USGS dataset) USGS should have done some research into water use per capita and strategies for minimizing water consumption. While I didn't have time to do the latter,  I definitely did the former and extracted daily water use alongside with population statistics to determine water use per capita per day for more insights to be drawn from the graphs.
 - Minification of code to prevent security flaws/expose vulnerabilities and making it HTTPS by default: Security concerns are huge with web development and two things I did with my project- minifying the JavaScript code within the HTML to prevent external attackers reading it, and making it HTTPS to enhance the security and verifiability of the site.
 - Creating logarithmic scaling for each data point to make interpretation of the vis more sensible and to ensure large quantities wouldn't be expressed so pronouncedly and emphasize the differences between small quantities. 
+- Use of multiple views (multiple choropleth maps) to get a more comprehensive idea of the proportions/correlations in place. One graph was not enough to describe this information efficiently which is why I made 3.
 
 
 

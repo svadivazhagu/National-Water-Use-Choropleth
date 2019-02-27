@@ -124,7 +124,7 @@ I believe that my set of visualizations definetly reveals more information than 
 
 ---
 
-## Dataset Information & Citation
+## Dataset Citation & Supporting Papers
 
 Dataset was obtained by downloading the .csv from the USGS website. A citation to the dataset used is presented as following:
 

@@ -1,6 +1,5 @@
-# Assignment 4 - Visualization Remix
 ## Water Consumption in the United States, 2015
-### [Surya Vadivazhagu](users.wpi.edu/~svadivazhagu), CS-480X'C19 @ WPI
+### [Surya Vadivazhagu](users.wpi.edu/~svadivazhagu),
 ### Spring 2019
 
 ---

@@ -1,5 +1,5 @@
 ## Water Consumption in the United States, 2015
-### [Surya Vadivazhagu](users.wpi.edu/~svadivazhagu),
+### [Surya Vadivazhagu](users.wpi.edu/~svadivazhagu)
 ### Spring 2019
 
 ---
